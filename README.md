@@ -8,7 +8,6 @@ Il est possible de redémarrer une partie avec l'icone flèche en haut à droite
 
 ![interface graphique](interface.png "interface graphique")
 
-Je travaille actuellement sur la mise en place d'une case qui permettrait de demander un indice i.e. changer une seule case.
 
 ## Installation : 
 Le jeu utilise kivy pour l'interface graphique. Donc, s'il elle n'est pas installée pour vous, il faut l'installer : 

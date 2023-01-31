@@ -41,7 +41,7 @@ class Aristote:
         
 
     def ligne(self,y) :
-        '''renvoie dans une liste les valeurs dune ligne de hauteur y (entre 0 et 4 compris)'''
+        '''renvoie dans une liste les valeurs d'une ligne de hauteur y (entre 0 et 4 compris)'''
         res = []
         for x in range(5):
             if (x,y) in self.coordonnees :
@@ -55,6 +55,7 @@ class Aristote:
         self.lien[case1] = b
         self.lien[case2] = a
         
+
     def victoire(self):
         """Stop le jeu si le joueur à gagné"""
         if sum(self.ligne(0)) == 38 and sum(self.ligne(1)) == 38 and sum(self.ligne(2)) == 38 and sum(self.ligne(3)) == 38 and sum(self.ligne(4)) == 38 :
@@ -77,6 +78,7 @@ class Aristote:
             self.appli.boutons[key].background_normal = couleur
             self.appli.boutons[key].text = str(value)
         case_somme = [(5,0),((5,1)),(5,2),(5,3),(5,4)]
+        # Gestion des couleurs si la somme = 38
         for k in range(5):
             case = case_somme[k]
             value = str(sum(self.ligne(k)))
@@ -85,32 +87,39 @@ class Aristote:
                 self.appli.boutons[case].background_color = (0,1,0,1)
             else :
                 self.appli.boutons[case].background_color = (1,0,0,1)
+            # Images fixes
             self.appli.boutons[(4,4)].background_normal = "mes_images/retry.jpg"
             self.appli.boutons[(4,0)].background_normal = "mes_images/loupe.jpg"
             
         
     # Action lors du click
     def callback(self, mon_bouton):
+        # Regeneration d'une partie
         if mon_bouton.identifiant == (4,4):
             self.generer()
             self.afficher()
+        # Recherche d'une situation gagnante
         elif mon_bouton.identifiant == (4,0) :
             solution = self.root.parcourir()
             for key, value in self.lien.items() :
                 self.lien[key] = solution[key[1]][key[0]]
             self.victoire()
-            self.afficher("mes_images/carre_vert.png")       
+            self.afficher("mes_images/carre_vert.png")   
+        # Echange des valeurs    
         elif self.en_cours == True :
             if mon_bouton.identifiant in self.coordonnees:
+                # Reinitialisation si même bouton déjà clické
                 if mon_bouton.background_color == [0, 0, 1, 1] :
                     mon_bouton.reinitialiser()
                     self.afficher()
                     self.nb_click = 0
                 else :
+                    # Si aucun bouton clické
                     if self.nb_click == 0 :
                         self.nb_click = 1
                         mon_bouton.background_color = (0,0,1,1)
                         self.premier = mon_bouton
+                    # Si un autre bouton déjà clické
                     elif self.nb_click == 1 :
                         self.nb_click = 0
                         self.deuxieme = mon_bouton
